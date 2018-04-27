@@ -1,0 +1,33 @@
+
+/*
+ * NOTE: This trie can be used to associate a key with a datum, with
+ *       the datum being a void pointer.  Keys can only be composed
+ *       of letters a-z.  No digits, spaces, or punctuation is allowed.
+ *       Each key can contain no more than MaxKeyLen characters.
+ *
+ * All keys stored in the trie are stored (and compared) in a
+ *       case-insensitive fashion.  This means that storing "text"
+ *       and looking up "TEXT" will result in a match.  All keys are
+ *       converted to uppercase internally by the trie, so the user
+ *       need not be concerned about it.
+ */
+module trie interface
+    /*
+     * module-wide constants
+     */
+    MaxKeyLen: constant positive := 4096;
+
+    /*
+     * types
+     */
+    type trie_type;
+    type trie_key_type is array (1..MaxKeyLen) of character;
+
+    /*
+     * routines
+     */
+    mutator insert(t: in out trie_type; key: in trie_key_type; x: in ptr_type);
+    function find(t: in trie_type; key: in trie_key_type) return ptr_type;
+    accessor size(t: in trie_type) return natural;
+
+end trie;

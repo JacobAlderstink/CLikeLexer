@@ -1,0 +1,13 @@
+#!/bin/sh
+
+
+while [ $# -ge 1 ] 
+do
+    input=$1
+    output="$input.lexer.out"
+    a.out $input > output
+    sdiff output $output
+    rm output
+    read help
+    shift
+done

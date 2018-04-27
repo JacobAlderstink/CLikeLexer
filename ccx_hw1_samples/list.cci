@@ -1,0 +1,22 @@
+module list interface
+    /*
+     * types
+     */
+    type list_type;
+    type listel_type;
+    subtype list_size_type is natural;
+
+    /*
+     * routines
+     */
+    mutator  append(l: in out list_type; x: in ptr_type);
+    accessor data(e: listel_type) return ptr_type;
+    function find(l: list_type; x: ptr_type) return listel_type;
+    accessor head(l: list_type) return listel_type;
+    mutator  insert(l: in out list_type; e: in out listel_type; x: in ptr_type);
+    accessor next(e: listel_type) return listel_type;
+    mutator  prepend(l: in out list_type; x: in ptr_type);
+    accessor prev(e: listel_type) return listel_type;
+    mutator  remove(l: in out list_type; e: in out listel_type);
+    function size(l: list_type) return list_size_type;
+end list;

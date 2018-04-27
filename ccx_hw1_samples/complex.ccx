@@ -1,0 +1,35 @@
+module complex_number is
+
+    type complex_number_type is
+        struct
+            re: float; /* real */
+            im: float; /* imaginary */
+        end struct;
+
+    accessor imaginary(c: complex_number_type) return float is
+    begin
+        return c.im;
+    end imaginary;
+
+    accessor real(c: complex_number_type) return float is
+    begin
+        return c.re;
+    end imaginary;
+
+    function "+"(c1, c2: complex_number_type) return complex_number_type is
+        tmp: complex_number_type;
+    begin
+        tmp.re := c1.re + c2.re;
+        tmp.im := c1.im + c2.im;
+        return tmp;
+    end "+";
+
+    function "-"(c1, c2: complex_number_type) return complex_number_type is
+        tmp: complex_number_type;
+    begin
+        tmp.re := c1.re - c2.re;
+        tmp.im := c1.im - c2.im;
+        return tmp;
+    end "-";
+
+end complex_number;

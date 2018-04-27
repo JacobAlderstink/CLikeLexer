@@ -1,0 +1,16 @@
+module natural interface
+    /*
+     * types
+     */
+    type natural;
+
+    /*
+     * routines
+     */
+    function "-"(x: natural) return natural;
+    function "-"(lhs, rhs: natural) return natural;
+    function "+"(lhs, rhs: natural) return natural;
+    function "*"(lhs, rhs: natural) return natural;
+    function "/"(lhs, rhs: natural) return natural;
+    function "mod"(lhs, rhs: natural) return natural;
+end natural;

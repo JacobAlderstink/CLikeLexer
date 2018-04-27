@@ -1,0 +1,158 @@
+module list is
+
+    type listel_type is
+        struct
+            data: ptr_type := null;
+            next: listel_type := null;
+            prev: listel_type := null;
+        end struct;
+
+    type list_type is
+        struct
+            head: listel_type := null;
+            tail: listel_type := null;
+        end struct;
+
+    mutator append(l: in out list_type; x: in ptr_type) is
+        tmp: listel_type;
+    begin
+        tmp := alloc(listel_type);
+        tmp.data := x;
+        tmp.next := null;
+        if (l.tail != null) then
+            tmp.prev := l.tail;
+            l.tail.next := tmp;
+            l.tail := tmp;
+        else
+            tmp.prev := null;
+            l.head := tmp;
+            l.tail := tmp;
+        end if;
+    end append;
+
+    accessor data(e: listel_type) return ptr_type is
+    begin
+        return e.data;
+    end data;
+
+    /*
+     * Old and nesty version (that works)
+     *
+    function find(l: list_type; x: ptr_type) return listel_type is
+        tmp: listel_type;
+    begin
+        tmp := l.head;
+        while (tmp != null) loop
+            if (tmp.data = x) then
+                exit;
+            end if;
+            tmp := tmp.next;
+        end loop;
+        return tmp;
+    end find;
+     */
+
+    function find(l: list_type; x: ptr_type) return listel_type is
+        tmp: listel_type;
+    begin
+        tmp := l.head;
+        loop
+            exit when ((tmp = null) or (tmp.data = x));
+            tmp := tmp.next;
+        end loop;
+        return tmp;
+    end find;
+
+    accessor head(l: list_type) return listel_type is
+    begin
+        return l.head;
+    end head;
+
+    /*
+     * This routine performs a prefix insertion of an el with data x.
+     */
+    mutator insert(
+        l: in out list_type;   /* list to insert within */
+        e: in out listel_type; /* place to insert el before */
+        x: in ptr_type         /* data of new el */
+        ) is
+        tmp: listel_type;
+    begin
+        tmp := alloc(listel_type);
+        tmp.data := x;
+        tmp.next := e;
+        tmp.prev := e.prev;
+        if (e.prev != null) then
+            e.prev.next := tmp;
+        end if;
+        e.prev := tmp;
+        if (e = l.head) then
+            l.head := tmp;
+        end if;
+    end insert;
+
+    accessor next(e: listel_type) return listel_type is
+    begin
+        return e.next;
+    end next;
+
+    mutator prepend(l: in out list_type; x: in data_type) is
+        tmp: listel_type;
+    begin
+        tmp := alloc(listel_type);
+        tmp.prev := null;
+        tmp.data := x;
+        if (l.head != null) then
+            tmp.next := l.head; 
+            l.head.prev := tmp;
+            l.head := tmp;
+        else
+            tmp.next := null;
+            l.head := tmp;
+            l.tail := tmp;
+        end if;
+    end prepend;
+
+    accessor prev(e: listel_type) return listel_type is
+    begin
+        return e.prev;
+    end next;
+
+    mutator remove(l: in out list_type; e: in out listel_type) is
+    begin
+        if (e.prev != null) then
+            e.prev.next := e.next;
+        end if;
+        if (e.next != null) then
+            e.next.prev := e.prev;
+        end if;
+        if (e = l.head) then
+            l.head := e.next;
+        end if;
+        if (e = l.tail) then
+            l.tail := e.prev;
+        end if;
+        dealloc(e);
+        e := null;
+    end remove;
+    
+    function size(l: list_type) return list_size_type is
+        tmp: listel_type;
+        n: list_size_type;
+    begin
+        n := 0;
+        tmp := l.head;
+        while (tmp != null) loop
+            tmp := tmp.next;
+            n := n + 1;
+        end loop;
+        return n;
+    end size;
+
+    accessor tail(l: list_type) return listel_type is
+    begin
+        return l.tail;
+    end head;
+
+end list;
+

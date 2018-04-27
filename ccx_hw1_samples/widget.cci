@@ -1,0 +1,19 @@
+module widget interface
+    /*
+     * types
+     */
+    type widget_type;
+    subtype widget_width_type is natural range 1..255;
+    subtype widget_height_type is natural range 1..128;
+
+    /*
+     * routines
+     */
+    function width(w: widget_type) return widget_width_type;
+    accessor width(w: widget_type) return widget_width_type;
+    function height(w: widget_type) return widget_height_type;
+    accessor height(w: widget_type) return widget_height_type;
+    function area(lhs: widget_type; rhs: widget_type) return widget_type;
+    mutator merge(lhs: widget_type; rhs: widget_type);
+
+end widget;

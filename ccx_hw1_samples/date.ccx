@@ -1,0 +1,195 @@
+module date is
+
+    type date_type is
+        struct
+            y: date_year_type := 1970;
+            mo: date_month_type := Jan;
+            d: date_day_type := 1;
+            h: date_hour_type := 0;
+            mi: date_min_type := 0;
+            s: date_sec_type := 0;
+            ms: date_msec_type := 0;
+        end struct;
+
+    function "="(lhs: date_type; rhs: date_type) return bool is
+    begin
+        return (
+            (lhs.y = rhs.y) and
+            (lhs.mo = rhs.mo) and
+            (lhs.d = rhs.d) and
+            (lhs.h = rhs.h) and
+            (lhs.mi = rhs.mi) and
+            (lhs.s = rhs.s) and
+            (lhs.ms = rhs.ms));
+    end "=";
+
+    function is_leap_year(yr: date_year_type) return bool is
+    begin
+        if ((yr mod 4) != 0) then
+            return false;
+        elsif ((yr mod 100) != 0) then
+            return true;
+        elsif ((yr mod 400) != 0) then
+            return false;
+        else
+            return true;
+        end if;
+    end is_leap_year;
+
+    function "<"(lhs: date_type; rhs: date_type) return bool is
+    begin
+        if (lhs.y > rhs.y) then
+            return false;
+        end if;
+
+        if (lhs.y < rhs.y) then
+            return true;
+        end if;
+
+        /* years are equal... */
+
+        if (lhs.mo > rhs.mo) then
+            return false;
+        end if;
+
+        if (lhs.mo < rhs.mo) then
+            return true;
+        end if;
+
+        /* months are equal */
+
+        if (lhs.d > rhs.d) then
+            return false;
+        end if;
+
+        if (lhs.d < rhs.d) then
+            return true;
+        end if;
+
+        /* days are equal */
+
+        if (lhs.h > rhs.h) then
+            return false;
+        end if;
+
+        if (lhs.h < rhs.h) then
+            return true;
+        end if;
+
+        /* hours are equal */
+
+        if (lhs.m > rhs.m) then
+            return false;
+        end if;
+
+        if (lhs.m < rhs.m) then
+            return true;
+        end if;
+
+        /* minutes are equal */
+
+        if (lhs.s > rhs.s) then
+            return false;
+        end if;
+
+        if (lhs.s < rhs.s) then
+            return true;
+        end if;
+
+        /* seconds are equal */
+
+        return (lhs.ms < rhs.ms);
+    end "<";
+
+    accessor day(d: date_type) return date_day_type is
+    begin
+        return d.d;
+    end day;
+
+    mutator day(d: in out date_type; day: in out day_date_type; b: out bool) is
+    begin
+        if (d.day_is_vaild(day)) then
+            d.d := day;
+            b := true;
+        else
+            b := false;
+        end if;
+    end day;
+
+    function day_is_valid(d: date_type; day: date_day_type) return bool is
+    begin
+        case (d.m) is
+            when (Apr or Jun or Sep or Nov) =>
+                return day <= 30;
+            when Feb =>
+                if (is_leap_year(d.y)) then
+                    return day <= 29;
+                else
+                    return day <= 28;
+                end if;
+            when others =>
+                return day <= 31;
+        end case;
+    end day_is_valid;
+
+    accessor hour(d: date_type) return date_hour_type is
+    begin
+        return d.h;
+    end hour;
+
+    mutator hour(d: in out date_type; h: in date_hour_type) is
+    begin
+        d.h := h;
+    end hour;
+
+    accessor min(d: date_type) return date_min_type is
+    begin
+        return d.mi;
+    end min;
+
+    mutator min(d: in out date_type; m: in date_min_type) is
+    begin
+        d.mi := m;
+    end min;
+
+    accessor month(d: date_type) return date_month_type is
+    begin
+        return d.mo;
+    end month;
+
+    mutator month(d: in out date_type; m: in date_month_type) is
+    begin
+        d.mo := m;
+    end month;
+
+    accessor msec(d: date_type) return date_msec_type is
+    begin
+        return d.ms;
+    end msec;
+
+    mutator msec(d: in out date_type; m: in date_msec_type) is
+    begin
+        d.ms := m;
+    end msec;
+
+    accessor sec(d: date_type) return date_sec_type is
+    begin
+        return d.s;
+    end sec;
+
+    mutator sec(d: in out date_type; s: in date_sec_type) is
+    begin
+        d.s := s;
+    end sec;
+
+    accessor year(d: date_type) return date_year_type is
+    begin
+        return d.y;
+    end year;
+
+    mutator year(d: in out date_type; y: in date_year_type) is
+    begin
+        d.y := y;
+    end year;
+end date;
+

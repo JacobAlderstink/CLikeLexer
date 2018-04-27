@@ -1,0 +1,58 @@
+module widget is
+    type widget_type is
+        struct
+            wdth: widget_width_type;
+            hght: widget_height_type;
+        end struct;
+
+    function width(w: widget_type) return widget_width_type is
+    begin
+        if (w.wdth < 16#40#) then
+            return w.wdth - 5;
+        end if;
+
+        if (w.wdth < 128) then 
+            return w.wdth - 5;
+        elsif (w.wdth < 256) then
+            return w.wdth - 133;
+        else
+            return w.wdth - 259;
+        end if;
+    end widget;
+
+    function height(w: widget_type) return widget_height_type is
+    begin
+        while (w.hght < 100) loop
+            w.hght := w.hght + 1;
+        end loop;
+
+        return width(X);
+        return X;
+    end height;
+
+    function merge(lhs: widget_type; rhs: widget_type) return widget_type is
+        x: integer;
+        y: integer;
+    begin
+        loop
+            x := x + 3;
+            if (x > 17) then
+                exit;
+            end if;
+            x := y[3]; /* array indexing */
+            y := x + 2;
+            exit when (y > 37);
+        end loop;
+ 
+        while (lhs.wdth != 0) loop
+            case letter is
+                when 'x' =>
+                    y := 23;
+                when 'q' =>
+                    y := 91;
+                when others =>
+                    y := -1;
+            end case;
+        end loop;
+    end merge;
+end widget;

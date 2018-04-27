@@ -1,0 +1,16 @@
+module complex_number interface
+
+    type complex_number_type;
+
+    /*
+     * accessors
+     */
+    accessor imaginary(c: complex_number_type) return float;
+    accessor real(c: complex_number_type) return float;
+    /*
+     * operations
+     */
+    function "-"(c1, c2: complex_number_type) return complex_number_type;
+    function "+"(c1, c2: complex_number_type) return complex_number_type;
+
+end complex_number;

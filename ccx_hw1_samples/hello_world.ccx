@@ -1,0 +1,12 @@
+/*
+ * Hello world with args.
+ */
+procedure main(argc: integer; argv: string_vector_type) is
+begin
+    printf("Hello, world\n");
+    loop
+        argc := argc - 1;
+        exit when (argc = 0);
+        printf("arg[%d]: %s\n", argc, argv[argc]);
+    end loop;
+end main;
